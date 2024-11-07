@@ -5,7 +5,7 @@ function App() {
   const [data, setData] = useState('');
 
   const fetchApi = async() => {
-    const response = await fetch("/api");
+    const response = await fetch("/api/v1");
     const text = await response.text();
     setData(text);
   };

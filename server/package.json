@@ -1,18 +1,25 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "_moduleAliases": {
+    "@root": "./src"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
-    "dev": "nodemon --verbose server"
+    "start": "node --env-file=.env src/server.js",
+    "dev": "nodemon --env-file=.env --verbose src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "module-alias": "^2.2.3",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
