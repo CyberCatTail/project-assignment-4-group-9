@@ -13,15 +13,14 @@ async function runServer() {
 
     const express = require("express");
     const app = express();
+    const morgan = require('morgan');
+
+    app.use(morgan('combined'));
 
     app.use(express.static(path.join(__dirname, '../dist')));
 
-    // test demo
-    app.get("/api/v1", (req, res) => {
-        res.type('text/plain');
-        res.send("hello word");
-    });
-
+    const routes = require('./routes');
+    app.use('/api/v1', routes);
 
     const port = constants.PORT;
     app.listen(port, () => {

@@ -2,7 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "_moduleAliases": {
-    "@root": "./src"
+    "@root": "./src",
+    "@model": "./src/model",
+    "@controller": "./src/controller"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,6 +18,7 @@
   "dependencies": {
     "express": "^4.21.1",
     "module-alias": "^2.2.3",
+    "morgan": "^1.10.0",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "redis": "^4.7.0",
