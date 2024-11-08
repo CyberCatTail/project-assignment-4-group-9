@@ -1,5 +1,6 @@
 require('module-alias/register')
 const path = require('path');
+const fs = require('fs');
 const { constants } = require('@root/constants');
 
 async function runServer() {
@@ -10,6 +11,14 @@ async function runServer() {
     if (!await testCacheConnection()) {
         process.exit(1);
     }
+
+    const https = require('https');
+    var key = fs.readFileSync(__dirname + '/../.certs/localhost.key');
+    var cert = fs.readFileSync(__dirname + '/../.certs/localhost.crt');
+    var options = {
+        key: key,
+        cert: cert
+    };
 
     const express = require("express");
     const app = express();
@@ -23,9 +32,10 @@ async function runServer() {
     app.use('/api/v1', routes);
 
     const port = constants.PORT;
-    app.listen(port, () => {
-        console.log(`Server started on http://localhost:${port}`);
-    })
+    const server = https.createServer(options, app);
+    server.listen(port, () => {
+        console.log(`Server started on https://localhost:${port}`);
+    });
 }
 
 runServer();
