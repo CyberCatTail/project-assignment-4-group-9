@@ -24,7 +24,7 @@ function check_port {
             exit 1
         fi
     else
-        if netstat -tuln | grep ":$port " > /dev/null; then
+        if netstat -an | grep "$port " > /dev/null; then
             echo "Port $port is available"
         else
             echo "Port $port is closed"
