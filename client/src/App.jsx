@@ -1,24 +1,21 @@
-import { useState, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home"
+import Layout from "./pages/Layout"
 
 function App() {
-  const [data, setData] = useState('');
-
-  const fetchApi = async() => {
-    const response = await fetch("/api/v1/products/1");
-    const text = await response.text();
-    setData(text);
-  };
-
-  useEffect(() => {
-      fetchApi();
-    }, []);
-
   return (
-    <>
-        <Button>hi {data}</Button>
-    </>
+    <BrowserRouter>
+    <Layout>
+      <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="*" element={<NoPage />} /> */}
+        </Routes>
+    </Layout>
+  </BrowserRouter>
   )
 }
 
 export default App
+
