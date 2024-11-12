@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=.env src/server.js",
-    "dev": "nodemon --env-file=.env --verbose src/server.js"
+    "dev": "nodemon --env-file=.env --verbose src/server.js",
+    "dev-init": "node --env-file=.env scripts/init.js"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
+    "csvtojson": "^2.0.10",
     "nodemon": "^3.1.7"
   }
 }

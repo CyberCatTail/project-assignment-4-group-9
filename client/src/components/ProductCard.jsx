@@ -11,8 +11,7 @@ function ProductCard({product}) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{product.productItemName}</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle>{`${product.brand} ${product.model}`}</CardTitle>
       </CardHeader>
       <CardContent>
         <p>Card Content</p>
