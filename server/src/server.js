@@ -33,6 +33,7 @@ async function runServer() {
 
     const port = constants.PORT;
     const server = https.createServer(options, app);
+    console.log('begin server')
     server.listen(port, () => {
         console.log(`Server started on https://localhost:${port}`);
     });

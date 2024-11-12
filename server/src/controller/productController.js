@@ -11,3 +11,12 @@ exports.getProductById = (req, res) => {
       })
       .catch(err => res.status(500).json({ error: err.message }));
   };
+
+  exports.getAllProducts = (req, res) => {
+    // mock
+    Product.findAll()
+      .then(products => {
+        res.json(products);
+      })
+      .catch(err => res.status(500).json({ error: err.message }));
+  }

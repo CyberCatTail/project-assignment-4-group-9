@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home"
 import Layout from "./pages/Layout"
+import Cart from "./pages/Cart"
+import NoPage from "./pages/NoPage"
+import Admin from "./pages/Admin"
 
 function App() {
   return (
@@ -8,9 +11,9 @@ function App() {
     <Layout>
       <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="*" element={<NoPage />} /> */}
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<NoPage />} />
         </Routes>
     </Layout>
   </BrowserRouter>

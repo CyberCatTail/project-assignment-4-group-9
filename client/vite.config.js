@@ -19,7 +19,7 @@ export default defineConfig({
     proxy: {
       // proxy api for development
       '/api/v1': {
-        target: 'https://localhost:3000',
+        target: 'https://localhost:443',
         secure: false,
       },
     },
