@@ -19,7 +19,7 @@ function Home() {
 
     return (
         <>
-            {products.map(product => <ProductCard product={product}/>)}
+            {products.map(product => <ProductCard key={product.product_id} product={product}/>)}
         </>
     );
 }
