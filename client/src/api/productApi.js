@@ -6,7 +6,7 @@ const API_URL = API_BASE_URL + "/products";
 export const getProduct = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching product data:", error);
     throw error;
@@ -16,7 +16,7 @@ export const getProduct = async (id) => {
 export const getProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching product data:", error);
     throw error;
