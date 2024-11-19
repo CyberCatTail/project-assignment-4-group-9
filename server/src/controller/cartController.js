@@ -2,7 +2,7 @@ const { Product, Stock } = require("@model/product");
 const { cache } = require('@root/db');
 
 const getCartKey = (req) => {
-  const userId = req.session.userId;
+  const userId = req.userId;
   return `cart_uid_${userId}:`;
 }
 

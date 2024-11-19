@@ -1,44 +1,97 @@
+import * as React from "react";
+import { useForm } from "react-hook-form"
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
-    CardTitle,
 } from "@/components/ui/card"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import * as authApi from "@/api/authApi";
 
+export default function Login({ login, close }) {
 
-export default function Login({isVisible, setIsVisible}) {
+    const formSchema = z.object({
+        username: z.string().min(2, {
+            message: "Username must be at least 2 characters.",
+        }).max(10, {
+            message: "Username must be at most 10 characters.",
+        }),
+        password: z.string().min(8, {
+            message: "Password must be at least 8 characters.",
+        }).max(20, {
+            message: "Password must be at most 20 characters.",
+        }),
+    })
+
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+    })
+
+    const onSubmit = async (values) => {
+        await authApi.login(values.username, values.password)
+        login()
+        close()
+        window.location.reload();
+    };
+
     const handleClose = () => {
-        setIsVisible(false);
+        close();
     };
 
     return (
-        <>
-            {isVisible &&
-                <Card className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                    <CardHeader className="space-y-1">
-                        <Button variant="ghost" className="absolute top-0 right-0 m-3" onClick={handleClose}>X</Button>
-                    </CardHeader>
-                    <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="m@example.com" />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" />
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full">Login / Create Account</Button>
-                    </CardFooter>
-                </Card>
-            }
-        </>
-
+        <Card className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+            <CardHeader className="space-y-1">
+                <Button variant="ghost" className="absolute top-0 right-0 m-3" onClick={handleClose}>X</Button>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <FormField
+                            control={form.control}
+                            name="username"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Username</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" className='w-full'>Login / Create Account</Button>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card>
     )
 }

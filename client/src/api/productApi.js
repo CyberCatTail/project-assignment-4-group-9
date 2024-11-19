@@ -1,11 +1,10 @@
-import { API_BASE_URL } from "./basic";
-import axios from "axios";
+import { apiInstance } from "./basic";
 
-const API_URL = API_BASE_URL + "/products";
+const API_URL = "/products";
 
 export const getProduct = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await apiInstance.get(`${API_URL}/${id}`);
     return response.data.data;
   } catch (error) {
     console.error("Error fetching product data:", error);
@@ -15,7 +14,7 @@ export const getProduct = async (id) => {
 
 export const getProducts = async () => {
   try {
-    const response = await axios.get(`${API_URL}`);
+    const response = await apiInstance.get(`${API_URL}`);
     return response.data.data;
   } catch (error) {
     console.error("Error fetching product data:", error);

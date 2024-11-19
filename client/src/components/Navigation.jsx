@@ -5,17 +5,39 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
+  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { Input } from "@/components/ui/input";
-import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, UserCircleIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import Login from "@/components/Login";
+import { AuthContext } from '@/context/AuthContext';
 
 function Navigation() {
   const [showLogin, setShowLogin] = React.useState(false);
+  const { isLoggedIn, login, logout } = React.useContext(AuthContext);
+
+  React.useEffect(() => {
+    const handle401Error = () => {
+      setShowLogin(true);
+    };
+
+    window.addEventListener('show-login-card', handle401Error);
+
+    return () => {
+        window.removeEventListener('show-login-card', handle401Error);
+    };
+}, []);
 
   const handleProfileClick = () => {
     setShowLogin(!showLogin);
+  };
+
+  const handeLogout = () => {
+    logout();
+  }
+
+  const closeLoginCard = () => {
+    setShowLogin(false);
   };
 
   return (
@@ -29,21 +51,32 @@ function Navigation() {
             </NavigationMenuItem>
             <NavigationMenuItem className="mx-2">
               <Link to="/cart" className={navigationMenuTriggerStyle()}>
-                  <ShoppingCartIcon className="h-full" />
+                <ShoppingCartIcon className="h-full" />
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem className="mx-2">
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
-                <UserCircleIcon
-                  className="h-full"
-                  onClick={handleProfileClick}
-                />
-              </NavigationMenuLink>
+              {isLoggedIn ? (
+                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
+                  <ArrowRightStartOnRectangleIcon
+                    className="h-full"
+                    onClick={handeLogout} />
+                </NavigationMenuLink>
+
+              ) : (
+                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
+                  <UserCircleIcon
+                    className="h-full"
+                    onClick={handleProfileClick}
+                  />
+                </NavigationMenuLink>
+              )}
+
+
             </NavigationMenuItem>
           </div>
         </NavigationMenuList>
       </NavigationMenu>
-      <Login isVisible={showLogin} setIsVisible={setShowLogin} />
+      {showLogin && <Login login={login} close={closeLoginCard}/>}
     </>
   );
 }
