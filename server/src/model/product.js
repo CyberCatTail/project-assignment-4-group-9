@@ -55,6 +55,10 @@ const Product = db.define('Product', {
       type: DataTypes.BIGINT,
       allowNull: false,
     },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     tableName: 'products',
     timestamps: true,

@@ -19,4 +19,5 @@ cd "$SCRIPT_DIR"
 echo "start build server"
 cd ./server
 npm install
+npm run build
 

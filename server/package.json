@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=.env src/server.js",
     "dev": "nodemon --env-file=.env --verbose src/server.js",
-    "dev-init": "node --env-file=.env scripts/init.js"
+    "dev-init": "node --env-file=.env scripts/init.js",
+    "build": "cp -R ./scripts/img ./dist"
   },
   "keywords": [],
   "author": "",

@@ -29,6 +29,10 @@ async function importProduct() {
   }
   const products = await importCsv(__dirname + "/laptop.csv", csvop);
   console.log("get product rows:" + products.length);
+  products.forEach(product => {
+    const randomNumber = Math.ceil(Math.random() * 5);
+    product.img = `img/${product.brand}/${randomNumber}.jpg`;
+  });
   await Product.bulkCreate(products);
   console.log("Product CSV file successfully imported into the database!");
 }
