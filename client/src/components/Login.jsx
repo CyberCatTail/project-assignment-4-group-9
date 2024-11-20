@@ -28,8 +28,8 @@ export default function Login({ login, close }) {
         }).max(10, {
             message: "Username must be at most 10 characters.",
         }),
-        password: z.string().min(8, {
-            message: "Password must be at least 8 characters.",
+        password: z.string().min(5, {
+            message: "Password must be at least 5 characters.",
         }).max(20, {
             message: "Password must be at most 20 characters.",
         }),

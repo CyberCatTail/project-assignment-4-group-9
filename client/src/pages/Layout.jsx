@@ -1,5 +1,6 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
+import { Toaster } from "@/components/ui/sonner"
 
 function Layout({ children }) {
     return (
@@ -13,6 +14,7 @@ function Layout({ children }) {
                 </main>
             </div>
             <Footer />
+            <Toaster richColors />
         </div>
     );
 }

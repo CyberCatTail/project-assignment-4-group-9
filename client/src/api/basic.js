@@ -1,4 +1,5 @@
 import { Cookies } from 'react-cookie';
+import { toast } from "sonner"
 const cookies = new Cookies()
 
 import axios from 'axios';
@@ -31,6 +32,7 @@ apiInstance.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             window.dispatchEvent(new Event('show-login-card'));
         }
+        toast.error(error.response.data.data.message)
         return Promise.reject(error);
     }
 );
