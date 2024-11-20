@@ -6,14 +6,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-function ProductCard({product}) {
+function ProductCard({product, className}) {
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
-        <CardTitle>{`${product.brand} ${product.model}`}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>{`${product.brand} ${product.model}`}</p>
       </CardContent>
       <CardFooter>
         <p>Card Footer</p>
