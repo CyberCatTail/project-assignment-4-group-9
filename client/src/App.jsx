@@ -3,20 +3,24 @@ import Home from "./pages/Home"
 import Layout from "./pages/Layout"
 import Cart from "./pages/Cart"
 import NoPage from "./pages/NoPage"
-import Admin from "./pages/Admin"
+import AdminLayout from "./pages/AdminLayout"
+import AdminProduct from "@/pages/AdminProduct"
 
 function App() {
   return (
-    <BrowserRouter>
-    <Layout>
+    <BrowserRouter future={{ v7_startTransition: true }}>
       <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/admin" element={<Admin />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="*" element={<NoPage />} />
-        </Routes>
-    </Layout>
-  </BrowserRouter>
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}> 
+          <Route path="product" element={<AdminProduct />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
