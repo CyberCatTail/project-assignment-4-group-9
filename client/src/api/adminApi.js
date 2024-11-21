@@ -24,3 +24,16 @@ export const getProducts = async (offset, limit) => {
     throw error;
   }
 };
+
+export const updateProduct = async (id, updateData) => {
+  if (id < 0) {
+    return;
+  }
+  try {
+    const response = await apiInstance.put(`${API_URL}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error update product data:", error);
+    throw error;
+  }
+};

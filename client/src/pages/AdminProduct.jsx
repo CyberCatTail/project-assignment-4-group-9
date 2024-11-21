@@ -6,7 +6,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,9 +20,7 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
@@ -35,89 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getProducts } from "@/api/adminApi";
-
-
-export const columns = [
-  {
-    accessorKey: "product_id",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Product Id
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{row.getValue("product_id")}</div>,
-  },
-  {
-    accessorKey: "brand",
-    header: "Brand",
-    cell: ({ row }) => (
-      <div>{row.getValue("brand")}</div>
-    ),
-  },
-  {
-    accessorKey: "model",
-    header: "Model",
-    cell: ({ row }) => (
-      <div>{row.getValue("model")}</div>
-    ),
-  },
-  {
-    accessorKey: "price",
-    header: () => <div>Price</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("price")) / 100
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "CAD",
-      }).format(amount)
-
-      return <div className="font-medium">{formatted}</div>
-    },
-  },
-  {
-    accessorKey: "stock",
-    header: "Stock Quality",
-    cell: ({ row }) => (
-      <div>{row.getValue("stock")}</div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy Product Id
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Modify</DropdownMenuItem>
-            <DropdownMenuItem className='text-rose-400'>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
+import { getProducts, getProduct } from "@/api/adminApi";
 
 export default function AdminProduct() {
   const [sorting, setSorting] = React.useState([])
@@ -129,11 +45,80 @@ export default function AdminProduct() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage] = React.useState(10);
 
+  const columns = [
+    {
+      accessorKey: "product_id",
+      header: "Product Id",
+      cell: ({ row }) => <div>{row.getValue("product_id")}</div>,
+    },
+    {
+      accessorKey: "brand",
+      header: "Brand",
+      cell: ({ row }) => (
+        <div>{row.getValue("brand")}</div>
+      ),
+    },
+    {
+      accessorKey: "model",
+      header: "Model",
+      cell: ({ row }) => (
+        <div>{row.getValue("model")}</div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: () => <div>Price</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("price")) / 100
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "CAD",
+        }).format(amount)
+  
+        return <div className="font-medium">{formatted}</div>
+      },
+    },
+    {
+      accessorKey: "stock",
+      header: "Stock Quantity",
+      cell: ({ row }) => (
+        <div>{row.getValue("stock")}</div>
+      ),
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const product_id = row.original.product_id
+  
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(product_id)}
+              >
+                Copy Product Id
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleModify(product_id)}>Modify</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
+
   const table = useReactTable({
     data,
     columns,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -158,6 +143,11 @@ export default function AdminProduct() {
     pageLoad(currentPage)
   }, []);
 
+  const parseProduct = (product) => {
+    const { product_id, model, brand, price,  stock: {quantity}} = product;
+    return {product_id, model, brand, price, stock: quantity};
+  }
+
   const pageLoad = async (page) => {
     if (page < 1) {
       return;
@@ -166,11 +156,7 @@ export default function AdminProduct() {
     if (products.length == 0) {
       return;
     }
-    const v = products.map(v => {
-      const { product_id, model, brand, price,  stock: {quantity}} = v;
-      return {product_id, model, brand, price, stock: quantity};
-    });
-    setData(v);
+    setData(products.map(v => parseProduct(v)));
     setCurrentPage(page);
   }
 
@@ -182,15 +168,37 @@ export default function AdminProduct() {
     pageLoad(currentPage - 1);
   }
 
+  const handleModify = (product_id) => {
+
+  }
+
+  const handleFilter = async (e) => {
+    if (e.key === 'Enter') {
+      const value = e.target.value;
+      if (value == '' || !Number.isInteger(Number(value))) {
+        pageLoad(currentPage)
+        return;
+      }
+      try {
+        const product = await getProduct(e.target.value);
+        if (!product) {
+          setData([]);
+          return;
+        }
+        setData([parseProduct(product)]);
+      } catch (error) {
+        console.error("get products error, ", error)
+      }
+
+    }
+  }
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Product Id..."
-          value={(table.getColumn("product_id")?.getFilterValue()) ?? ""}
-          onChange={(event) =>
-            table.getColumn("product_id")?.setFilterValue(event.target.value)
-          }
+          onKeyDown={handleFilter}
           className="max-w-sm"
         />
       </div>
@@ -246,11 +254,11 @@ export default function AdminProduct() {
       </div>
       <Pagination className="py-4">
       <PaginationContent>
-        <PaginationItem onClick={pageDown}>
-          <PaginationPrevious href="#" />
+        <PaginationItem onClick={pageDown} className="select-none cursor-pointer" >
+          <PaginationPrevious />
         </PaginationItem>
-        <PaginationItem onClick={pageUp}>
-          <PaginationNext href="#" />
+        <PaginationItem onClick={pageUp} className="select-none cursor-pointer" >
+          <PaginationNext />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

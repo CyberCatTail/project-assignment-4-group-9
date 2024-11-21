@@ -12,7 +12,7 @@ exports.getProductById = (req, res) => {
   })
     .then((product) => {
       if (!product) {
-        res.status(404).json({error: {code: 404, detail: "Product not found"}, data : { message: 'Please Try again' }});
+        res.json({error: {code: 404, detail: `can not find product ${pk}`}});
         return
       }
 
