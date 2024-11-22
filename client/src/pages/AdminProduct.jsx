@@ -1,9 +1,9 @@
 import * as React from "react"
+import { Link } from "react-router-dom";
+
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
@@ -36,10 +36,6 @@ import {
 import { getProducts, getProduct } from "@/api/adminApi";
 
 export default function AdminProduct() {
-  const [sorting, setSorting] = React.useState([])
-  const [columnFilters, setColumnFilters] = React.useState(
-    []
-  )
   const [data, setData] = React.useState([]);
 
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -107,7 +103,7 @@ export default function AdminProduct() {
                 Copy Product Id
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleModify(product_id)}>Modify</DropdownMenuItem>
+              <DropdownMenuItem><Link to={`edit/${product_id}`}>Modify</ Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -118,14 +114,9 @@ export default function AdminProduct() {
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     state: {
       data,
-      sorting,
-      columnFilters,
     },
   })
 
@@ -166,10 +157,6 @@ export default function AdminProduct() {
 
   const pageDown = () => {
     pageLoad(currentPage - 1);
-  }
-
-  const handleModify = (product_id) => {
-
   }
 
   const handleFilter = async (e) => {

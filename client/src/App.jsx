@@ -5,6 +5,7 @@ import Cart from "./pages/Cart"
 import NoPage from "./pages/NoPage"
 import AdminLayout from "./pages/AdminLayout"
 import AdminProduct from "@/pages/AdminProduct"
+import AdminProductForm from "@/pages/AdminProductForm"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}> 
           <Route path="product" element={<AdminProduct />} />
+          <Route path="product/:action/:id" element={<AdminProductForm />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

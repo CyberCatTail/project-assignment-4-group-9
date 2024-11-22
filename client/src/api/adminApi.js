@@ -30,7 +30,7 @@ export const updateProduct = async (id, updateData) => {
     return;
   }
   try {
-    const response = await apiInstance.put(`${API_URL}`);
+    const response = await apiInstance.put(`${API_URL}/${id}`, updateData);
     return response.data.data;
   } catch (error) {
     console.error("Error update product data:", error);

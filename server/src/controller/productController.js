@@ -32,11 +32,30 @@ exports.getAllProducts = (req, res) => {
       as: "stock",
       attributes: { exclude: ['createdAt', 'updatedAt', 'id', 'product_id'] },
     }],
+    order: [['product_id', 'ASC']],
     limit: limit,
     offset: offset
   })
     .then((products) => {
       res.json({data: products});
+    })
+    .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, data : { message: 'Please Try again' }}));
+};
+
+
+exports.updateProduct = async (req, res) => {
+  const pk = req.params.id;
+  const updatedData = req.body;
+
+  Product.update(updatedData, {
+    where: { product_id: pk },
+  })
+    .then(([updatedRowCount]) => {
+      if (updatedRowCount > 0) {
+        res.status(200).json({data : { message: 'Product updated successfully.' }});
+      } else {
+        res.status(404).json({error: {code: 404, detail: 'Product not found'}, data : { message: 'Product not found' }});
+      }
     })
     .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, data : { message: 'Please Try again' }}));
 };

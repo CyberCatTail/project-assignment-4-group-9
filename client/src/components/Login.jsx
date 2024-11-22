@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import * as authApi from "@/api/authApi";
 
-export default function Login({ login, close }) {
+export default function Login({ login, close, ...props }) {
 
     const formSchema = z.object({
         username: z.string().min(2, {
@@ -55,7 +55,7 @@ export default function Login({ login, close }) {
     };
 
     return (
-        <Card className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+        <Card {...props}>
             <CardHeader className="space-y-1">
                 <Button variant="ghost" className="absolute top-0 right-0 m-3" onClick={handleClose}>X</Button>
             </CardHeader>

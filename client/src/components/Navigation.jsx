@@ -76,7 +76,7 @@ function Navigation() {
           </div>
         </NavigationMenuList>
       </NavigationMenu>
-      {showLogin && <Login login={login} close={closeLoginCard}/>}
+      {showLogin && <Login login={login} close={closeLoginCard} className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"/>}
     </>
   );
 }

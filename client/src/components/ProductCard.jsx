@@ -6,9 +6,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-function ProductCard({product, className}) {
+function ProductCard({product, ...props}) {
   return (
-    <Card className={className}>
+    <Card {...props}>
       <CardHeader>
       </CardHeader>
       <CardContent>
