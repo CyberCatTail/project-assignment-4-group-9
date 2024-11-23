@@ -18,9 +18,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import * as authApi from "@/api/authApi";
 
-export default function Login({ login, close, ...props }) {
+export default function Login({ handleClose, onSubmit, LoginButton, ...props }) {
 
     const formSchema = z.object({
         username: z.string().min(2, {
@@ -42,17 +41,6 @@ export default function Login({ login, close, ...props }) {
             password: "",
         },
     })
-
-    const onSubmit = async (values) => {
-        await authApi.login(values.username, values.password)
-        login()
-        close()
-        window.location.reload();
-    };
-
-    const handleClose = () => {
-        close();
-    };
 
     return (
         <Card {...props}>
@@ -88,7 +76,7 @@ export default function Login({ login, close, ...props }) {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className='w-full'>Login / Create Account</Button>
+                        <LoginButton />
                     </form>
                 </Form>
             </CardContent>

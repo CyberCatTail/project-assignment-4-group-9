@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
                 role: 2
                 });
         } else if (password !== user.password) {
-            res.status(401).json({error:{code: 500, detail: 'User Name or Password error'}, data: {message: 'User Name or Password error'} });
+            res.status(401).json({error:{code: 500, detail: 'User Name or Password error'}, notice: {message: 'User Name or Password error'} });
             return;
         }
     
@@ -29,8 +29,8 @@ exports.login = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000,
             path: '/',
         });
-        res.json({data: { message: `Welcome ${username}!` }});
+        res.json({notice: { message: `Welcome ${username}!` }});
       } catch (error) {
-        res.status(500).json({error:{code: 500, detail: error}, data: {message: 'login error'} });
+        res.status(500).json({error:{code: 500, detail: error}, notice: {message: 'login error'} });
       }
 }

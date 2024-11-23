@@ -103,7 +103,7 @@ export default function AdminProduct() {
                 Copy Product Id
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem><Link to={`edit/${product_id}`}>Modify</ Link></DropdownMenuItem>
+              <DropdownMenuItem><Link to={`edit/${product_id}`} className="w-full">Modify</ Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

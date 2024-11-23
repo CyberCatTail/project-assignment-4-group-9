@@ -7,6 +7,16 @@ import AdminLayout from "./pages/AdminLayout"
 import AdminProduct from "@/pages/AdminProduct"
 import AdminProductForm from "@/pages/AdminProductForm"
 
+const RoleBasedRoute = ({ children, allowedRoles }) => {
+  const role = userRole();
+
+  if (!allowedRoles.includes(role)) {
+    return <Navigate to="/" />;
+  }
+
+  return children;
+};
+
 function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true }}>

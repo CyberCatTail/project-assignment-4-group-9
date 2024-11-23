@@ -7,10 +7,12 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { ShoppingCartIcon, UserCircleIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import Login from "@/components/Login";
 import { AuthContext } from '@/context/AuthContext';
+import * as authApi from "@/api/authApi";
 
 function Navigation() {
   const [showLogin, setShowLogin] = React.useState(false);
@@ -40,6 +42,17 @@ function Navigation() {
     setShowLogin(false);
   };
 
+  const loginButton = () => {
+    return <Button type="submit" className='w-full'>Login / Create Account</Button>
+  }
+
+  const loginSubmit = async (values) => {
+    await authApi.login(values.username, values.password)
+    login()
+    closeLoginCard()
+    window.location.reload();
+  };
+
   return (
     <>
       <NavigationMenu className="max-w-full justify-between">
@@ -56,27 +69,25 @@ function Navigation() {
             </NavigationMenuItem>
             <NavigationMenuItem className="mx-2">
               {isLoggedIn ? (
-                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
+                <NavigationMenuLink onClick={handeLogout} className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
                   <ArrowRightStartOnRectangleIcon
                     className="h-full"
-                    onClick={handeLogout} />
+                     />
                 </NavigationMenuLink>
 
               ) : (
-                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
+                <NavigationMenuLink onClick={handleProfileClick} className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
                   <UserCircleIcon
                     className="h-full"
-                    onClick={handleProfileClick}
                   />
                 </NavigationMenuLink>
               )}
-
 
             </NavigationMenuItem>
           </div>
         </NavigationMenuList>
       </NavigationMenu>
-      {showLogin && <Login login={login} close={closeLoginCard} className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"/>}
+      {showLogin && <Login handleClose={closeLoginCard} onSubmit={loginSubmit} LoginButton={loginButton} className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"/>}
     </>
   );
 }

@@ -50,7 +50,7 @@ exports.getCart = async (req, res) => {
     });
     res.json({data: data});
   } catch (err) {
-    res.status(500).json({error: {code: 500, detail: err.message}, data : { message: 'Please Try again' }});
+    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
   }
 };
 
@@ -65,8 +65,8 @@ exports.addItem = async (req, res) => {
   const itemKey = getItemKey(productId);
   try {
     await cache.hIncrBy(cartKey, itemKey, quantity);
-    res.json({data: { message: 'Item added to cart'}});
+    res.json({notice: { message: 'Item added to cart'}});
   } catch (err) {
-    res.status(500).json({error: {code: 500, detail: err.message}, data : { message: 'Please Try again' }});
+    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
   }
 };

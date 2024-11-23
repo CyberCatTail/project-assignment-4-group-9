@@ -27,12 +27,19 @@ apiInstance.interceptors.request.use(
 );
 
 apiInstance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        if (response.data.notice) {
+            toast.success(response.data.notice.message)
+        }
+        return response;
+    },
     (error) => {
         if (error.response && error.response.status === 401) {
             window.dispatchEvent(new Event('show-login-card'));
         }
-        toast.error(error.response.data.data.message)
+        if (error.response.data.notice) {
+            toast.error(error.response.data.notice.message)
+        }
         return Promise.reject(error);
     }
 );

@@ -70,7 +70,7 @@ const column = [
         label: 'Img',
     },
     {
-        name: 'quantity',
+        name: 'stock.quantity',
         label: 'Quantity',
     },
 ]
@@ -90,7 +90,9 @@ export default function AdminProductForm() {
         weight: z.coerce.number().nonnegative().transform(v => `${v}kg`),
         price: z.string().regex(/^[1-9]\d*$/, "Value must be a positive integer"),
         img: z.string().min(1),
-        quantity: z.coerce.number().int().nonnegative(),
+        stock: z.object({
+            quantity: z.coerce.number().int().nonnegative(),
+        })
     })
 
     const form = useForm({
@@ -106,10 +108,12 @@ export default function AdminProductForm() {
             memory: '',
             gpu: '',
             op: '',
-            weight: '',
+            weight: 0,
             price: BigInt(0),
             img: '',
-            quantity: 0
+            stock: {
+                quantity: 0
+            }
         }
     })
 
@@ -144,9 +148,9 @@ export default function AdminProductForm() {
             gpu,
             op,
             weight: parseFloat(weight),
-            price: price,
+            price,
             img,
-            quantity
+            stock: { quantity }
         }
     }
 
