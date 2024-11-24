@@ -46,7 +46,7 @@ async function importStock() {
 
 async function createUser() {
   await User.create({
-    username: 'admin',
+    email: 'admin@beastbuy.com',
     password: 'admin',
     role: 1
     });

@@ -46,7 +46,7 @@ function Navigation() {
   }
 
   const loginSubmit = async (values) => {
-    await authApi.login(values.username, values.password)
+    await authApi.login(values.email, values.password)
     login()
     closeLoginCard()
     window.location.reload();

@@ -2,13 +2,13 @@ const constants = require('@root/constants');
 const { User} = require("@model/user");
 const jwt = require('jsonwebtoken');
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-        let user = await User.findOne({ where: { username } });
+        let user = await User.findOne({ where: { email } });
     
         if (!user) {
             user = await User.create({
-                username: username,
+                email: email,
                 password: password,
                 role: 2
                 });
@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000,
             path: '/',
         });
-        res.json({notice: { message: `Welcome ${username}!` }});
+        res.json({notice: { message: `Welcome ${email.split('@')[0]}!` }});
       } catch (error) {
         res.status(500).json({error:{code: 500, detail: error}, notice: {message: 'login error'} });
       }

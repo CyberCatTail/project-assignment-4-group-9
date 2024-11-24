@@ -22,11 +22,7 @@ import { z } from "zod"
 export default function Login({ handleClose, onSubmit, LoginButton, ...props }) {
 
     const formSchema = z.object({
-        username: z.string().min(2, {
-            message: "Username must be at least 2 characters.",
-        }).max(10, {
-            message: "Username must be at most 10 characters.",
-        }),
+        email: z.string().email(),
         password: z.string().min(5, {
             message: "Password must be at least 5 characters.",
         }).max(20, {
@@ -37,7 +33,7 @@ export default function Login({ handleClose, onSubmit, LoginButton, ...props }) 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
         },
     })
@@ -52,10 +48,10 @@ export default function Login({ handleClose, onSubmit, LoginButton, ...props }) 
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
                             control={form.control}
-                            name="username"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Username</FormLabel>
+                                    <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
