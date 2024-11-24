@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { CreditCardIcon } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -39,7 +40,7 @@ function PaymentCard({products, ...props}) {
   Total    = ParsePrice(Total);
  
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle>Payment Method</CardTitle>
         <CardDescription>
@@ -54,19 +55,7 @@ function PaymentCard({products, ...props}) {
               htmlFor="card"
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="mb-3 h-6 w-6"
-              >
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <path d="M2 10h20" />
-              </svg>
+              <CreditCardIcon className="size-12"/>
               Card
             </Label>
           </div>
