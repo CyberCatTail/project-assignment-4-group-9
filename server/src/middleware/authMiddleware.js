@@ -1,4 +1,4 @@
-const { constants } = require('@root/constants');
+const constants = require('@root/constants');
 const jwt = require('jsonwebtoken');
 
 exports.verifyAuth = (req, res, next) => {

@@ -1,7 +1,7 @@
 require('module-alias/register')
 const path = require('path');
 const fs = require('fs');
-const { constants } = require('@root/constants');
+const constants = require('@root/constants');
 
 async function runServer() {
     const {cache, testDBConnection, testCacheConnection} = require('./db');
@@ -25,16 +25,6 @@ async function runServer() {
     const morgan = require('morgan');
 
     app.use(morgan('combined'));
-
-    // const session = require('express-session');
-    // const RedisStore = require("connect-redis").default
-    // app.use(session({
-    //     store: new RedisStore({ client: cache, prefix: "session:"}),
-    //     secret: 'cyber cat tail',
-    //     resave: false,
-    //     saveUninitialized: false,
-    //     secure: true
-    // }));
 
     app.use(express.json());
     app.use(express.static(path.join(__dirname, '../dist')));

@@ -1,4 +1,4 @@
-const { constants } = require('@root/constants');
+const constants = require('@root/constants');
 
 const { Sequelize } = require('sequelize');
 

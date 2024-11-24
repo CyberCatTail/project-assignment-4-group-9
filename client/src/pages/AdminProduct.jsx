@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "react-router-dom";
+import {ParsePrice} from "@/lib/utils"
 
 import {
   flexRender,
@@ -65,13 +66,7 @@ export default function AdminProduct() {
       accessorKey: "price",
       header: () => <div>Price</div>,
       cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("price")) / 100
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "CAD",
-        }).format(amount)
-  
-        return <div className="font-medium">{formatted}</div>
+        return <div className="font-medium">{ParsePrice(row.getValue("price"))}</div>
       },
     },
     {

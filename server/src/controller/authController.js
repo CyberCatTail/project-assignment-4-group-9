@@ -1,4 +1,4 @@
-const { constants } = require('@root/constants');
+const constants = require('@root/constants');
 const { User} = require("@model/user");
 const jwt = require('jsonwebtoken');
 exports.login = async (req, res) => {
