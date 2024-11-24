@@ -8,7 +8,6 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input";
 import { ShoppingCartIcon, UserCircleIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import Login from "@/components/Login";
 import { AuthContext } from '@/context/AuthContext';
@@ -59,9 +58,6 @@ function Navigation() {
         <Link to="/" className={`font-serif text-2xl text-yellow-400`}>BeastBuy</Link>
         <NavigationMenuList className="flex text-gray-800 font-bold">
           <div className="w-full flex justify-end item-center">
-            <NavigationMenuItem className="mx-2">
-              <Input placeholder="Search Products" />
-            </NavigationMenuItem>
             <NavigationMenuItem className="mx-2">
               <Link to="/cart" className={navigationMenuTriggerStyle()}>
                 <ShoppingCartIcon className="h-full" />

@@ -1,48 +1,182 @@
 import * as React from "react";
 import { getProducts } from "@/api/productApi";
 import ProductCard from "@/components/ProductCard";
+import { Input } from "@/components/ui/input";
+
+import { useForm } from "react-hook-form"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
+const brand = [
+  {
+    id: "Apple",
+    label: "Apple",
+  },
+  {
+    id: "Dell",
+    label: "Dell",
+  }
+]
+
+const category = [
+  {
+    id: "Ultrabook",
+    label: "Ultrabook",
+  },
+]
+
 
 function Home() {
   const [products, setProducts] = React.useState([]);
 
+  const fetchProducts = async (queryParams) => {
+    try {
+      const data = await getProducts(queryParams);
+      setProducts(data);
+    } catch (error) {
+      console.error("get products error, ", error)
+    }
+  };
+
   React.useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error("get products error, ", error)
-      }
-    };
     fetchProducts();
   }, []);
 
+  const form = useForm({
+    defaultValues: {
+      brand: [],
+      category: [],
+      search: ""
+    },
+  })
+
+  function onSubmit(data) {
+    fetchProducts(data)
+  }
+
   return (
     <div className="flex">
-      <div className="basis-1/4">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Brand" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Brand</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div className="basis-1/8 flex-none flex flex-col space-y-4">
+        
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="search"
+              render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Search Products" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+              control={form.control}
+              name="brand"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Brands</FormLabel>
+                  </div>
+                  {brand.map((item) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="brand"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, item.id])
+                                    : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    )
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {item.label}
+                            </FormLabel>
+                          </FormItem>
+                        )
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="category"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Category</FormLabel>
+                  </div>
+                  {category.map((item) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, item.id])
+                                    : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    )
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {item.label}
+                            </FormLabel>
+                          </FormItem>
+                        )
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Search</Button>
+          </form>
+        </Form>
       </div>
       <div className="mx-8 flex flex-wrap">
-        {products.map(product => <ProductCard key={product.product_id} product={product} className='w-full lg:w-1/5 mx-3 mb-6'/>)}
+        {products.map(product => <ProductCard key={product.product_id} product={product} className='w-full lg:w-1/5 mx-3 mb-6' />)}
       </div>
     </div>
   );

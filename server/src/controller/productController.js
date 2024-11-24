@@ -1,5 +1,6 @@
 const { Product, Stock } = require("@model/product");
 const {db} = require('@root/db');
+const { Op } = require('sequelize');
 
 
 exports.getProductById = (req, res) => {
@@ -25,9 +26,16 @@ exports.getProductById = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-  const limit = req.query.limit;
-  const offset = req.query.offset;
+  const { category, brand, limit, offset, search } = req.query;
 
+  const query = {};
+
+  if (category) query.category = category;
+  if (brand) query.brand = brand;
+
+  if (search && search.trim() !== "") {
+    query.model = { [Op.iLike]: `%${search}%` }; // 模糊匹配
+  }
   Product.findAll({
     attributes: { exclude: ['createdAt', 'updatedAt'] },
     include: [{
@@ -35,6 +43,7 @@ exports.getAllProducts = (req, res) => {
       as: "stock",
       attributes: { exclude: ['createdAt', 'updatedAt', 'id', 'product_id'] },
     }],
+    where: query,
     order: [['product_id', 'ASC']],
     limit: limit,
     offset: offset
