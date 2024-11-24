@@ -63,7 +63,7 @@ const updateProductWithStock = async (req, res) => {
     });
   
   } catch (err) {
-    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
+    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Modify Product Failed' }});
   }
 }
 
@@ -83,5 +83,24 @@ exports.updateProduct = async (req, res) => {
         res.status(404).json({error: {code: 404, detail: 'Product not found'}, notice : { message: 'Product not found' }});
       }
     })
-    .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }}));
+    .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Modify Product Failed' }}));
+};
+
+exports.createProduct = async (req, res) => {
+  const data = req.body;
+  Product.create(
+    data,
+    {
+      include: [{ model: Stock, as: 'stock' } ],
+    },
+  ).then((product) => {
+      if (product) {
+        res.status(200).json({notice : { message: 'Product created successfully.' }});
+      } else {
+        res.status(400).json({error: {code: 400, detail: 'Request Error'}, notice : { message: 'Create Product Failed' }});
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Create Product Failed' }});
+      });
 };

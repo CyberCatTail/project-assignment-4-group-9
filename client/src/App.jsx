@@ -28,7 +28,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}> 
           <Route path="product" element={<AdminProduct />} />
-          <Route path="product/:action/:id" element={<AdminProductForm />} />
+          <Route path="product/:action/:id?" element={<AdminProductForm />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

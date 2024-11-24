@@ -3,7 +3,7 @@ const {db} = require('@root/db');
 
 const Product = db.define('Product', {
     product_id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
@@ -67,13 +67,9 @@ const Product = db.define('Product', {
 
   const Stock = db.define('Stock', {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    product_id: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
     },
     quantity: {
       type: DataTypes.INTEGER,

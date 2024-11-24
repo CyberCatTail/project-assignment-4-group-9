@@ -182,12 +182,13 @@ export default function AdminProduct() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex justify-between py-4">
         <Input
           placeholder="Filter Product Id..."
           onKeyDown={handleFilter}
           className="max-w-sm"
         />
+        <Button><Link to={`create`} className="w-full">New Product</ Link></Button>
       </div>
       <div className="rounded-md border">
         <Table>

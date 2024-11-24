@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { getProduct, updateProduct } from "@/api/adminApi";
+import { getProduct, updateProduct, createProduct } from "@/api/adminApi";
 
 const column = [
     {
@@ -167,7 +167,7 @@ export default function AdminProductForm() {
         if (action == "edit") {
             updateProduct(id, values)
         } else if (action == "create") {
-
+            createProduct(values)
         }
     };
 

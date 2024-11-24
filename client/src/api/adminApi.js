@@ -37,3 +37,13 @@ export const updateProduct = async (id, updateData) => {
     throw error;
   }
 };
+
+export const createProduct = async (data) => {
+  try {
+    const response = await apiInstance.post(`${API_URL}`, data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error create product data:", error);
+    throw error;
+  }
+};
