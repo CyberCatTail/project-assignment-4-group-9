@@ -24,7 +24,7 @@ exports.getCart = async (req, res) => {
       }
     }
     if (itemList.length < 1) {
-      res.json({data: {}});
+      res.json({data: []});
       return
     }
     const productIdList = itemList.map(v => v.productId);
