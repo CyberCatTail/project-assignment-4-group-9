@@ -6,7 +6,7 @@ import * as React from "react"
 
 
 
-function CartItem({product, clickfun, ...props}) {   
+function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...props}) {   
 
   return (
     <div {...props}>
@@ -24,14 +24,14 @@ function CartItem({product, clickfun, ...props}) {
                     <div>
                         <button type="button"
                             className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md">
-                            <MinusIcon className="size-3 stroke-[3px]" onClick={() => clickfun(product)}/>
+                            <MinusIcon className="size-3 stroke-[3px]" onClick={() => handleSubClick(product)}/>
                             <span className="mx-2.5">{product.quantity}</span>
-                            <PlusIcon className="size-3 stroke-[3px]"/>
+                            <PlusIcon className="size-3 stroke-[3px]" onClick={() => handleAddClick(product)}/>
                         </button>
                     </div>
 
                     <div className="ml-auto">
-                        <TrashIcon className="size-4 stroke-2 stroke-red-500 inline cursor-pointer"/>
+                        <TrashIcon className="size-4 stroke-2 stroke-red-500 inline cursor-pointer"  onClick={() => handleDelClick(product)}/>
                     </div>
                 </div>
             </div>

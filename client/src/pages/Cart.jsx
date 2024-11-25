@@ -18,17 +18,44 @@ function Cart() {
         fetchProducts();
       }, []);
 
-      const handleSubClick = async (product) => {
-        // if(product.quantity<=1){
+    const handleSubClick = async (product) => {
+    if(product.quantity<1){
+        handleDelClick(product);
+    }
+    product.quantity = product.quantity -1;
+    try {
+        const resp = await UpdatCart(product.product_id, product.quantity)   
+        setProducts(resp.data);
+    } catch(error){
+        console.error("get handleSubClick error, ", error);
+    }        
+    };
+
+    const handleDelClick = async (product) => {
+        // if(product.quantity<1){
         //     window.alert("No more quantity could be removed, click delete button to remove this product!");
         //     return;
-        // }
-        product.quantity = product.quantity -1;
+        //     }
+        product.quantity = 0;
+        try {
+            console.log("handleDelClick start!");
+            const resp = await UpdatCart(product.product_id, product.quantity)   
+            setProducts(resp.data);
+        } catch(error){
+            console.error("get handleDelClick error, ", error);
+        }        
+        };
+
+    const handleAddClick = async (product) => {
+        if(product.quantity>=product.stock.quantity){
+            window.alert("Exceed the max stock quantity");
+        }
+        product.quantity = product.quantity + 1;
         try {
             const resp = await UpdatCart(product.product_id, product.quantity)   
             setProducts(resp.data);
         } catch(error){
-            console.error("get handleSubClick error, ", error);
+            console.error("get handleAddClick error, ", error);
         }        
         };
     
@@ -42,7 +69,7 @@ function Cart() {
                 <div className="space-y-4 mt-8">
 
                     <div>
-                        {products.map(product => <CartItem key={product.product_id} product={product} clickfun={handleSubClick} /> )}
+                        {products.map(product => <CartItem key={product.product_id} product={product} handleSubClick={handleSubClick} handleDelClick={handleDelClick} handleAddClick={handleAddClick} /> )}
                         <hr className="border-gray-300" />
                     </div>   
                 </div>

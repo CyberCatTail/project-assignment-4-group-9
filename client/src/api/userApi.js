@@ -15,6 +15,7 @@ export const getCart= async () => {
 
 export const UpdatCart = async (product_id, quantity) => {
   try {
+    console.log(`product_id:${product_id}:quantity:${quantity}`);
     const response = await apiInstance.put(`${API_URL}`, {
       "productId": product_id,
       "quantity": quantity
