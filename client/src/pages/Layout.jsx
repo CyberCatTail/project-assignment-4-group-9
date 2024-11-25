@@ -10,7 +10,7 @@ function Layout() {
                 <Navigation />
             </header>
             <div className="flex flex-1">
-                <main className="flex-1 p-6 bg-gray-50">
+                <main className="flex-1 bg-gray-50">
                     <Outlet />
                 </main>
             </div>

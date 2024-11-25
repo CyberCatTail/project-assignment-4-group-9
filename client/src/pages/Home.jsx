@@ -64,9 +64,8 @@ function Home() {
   }
 
   return (
-    <div className="flex">
-      <div className="basis-1/8 flex-none flex flex-col space-y-4">
-        
+    <div className="flex flex-col sm:flex-row justify-center my-3">
+      <div className="flex-none flex flex-col space-y-4 mx-12 mb-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
