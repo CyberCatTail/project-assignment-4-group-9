@@ -83,7 +83,9 @@ function Navigation() {
           </div>
         </NavigationMenuList>
       </NavigationMenu>
-      {showLogin && <Login handleClose={closeLoginCard} onSubmit={loginSubmit} LoginButton={loginButton} className="w-1/4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"/>}
+      {showLogin &&
+        <Login className="overflow-auto w-[500px] h-30 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20" handleClose={closeLoginCard} onSubmit={loginSubmit} LoginButton={loginButton} />
+      }
     </>
   );
 }
