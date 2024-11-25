@@ -12,7 +12,7 @@ const getItemKey = (productId) => {
 
 exports.getCart = async (req, res) => {
   const cartKey = getCartKey(req);
-
+  console.log('get cart start!');
   try {
     const cart = await cache.hGetAll(cartKey);
     const itemList = [];
@@ -41,7 +41,7 @@ exports.getCart = async (req, res) => {
     }).then(products => {
       return products.map(product => product.get({ plain: true }));
     })
-    const data = items.map(product => {
+    const data = items.map(product => {      
       const match = itemList.find(item => item.productId === product.product_id);
       if (match) {
         return { ...product, quantity: match.quantity };
@@ -66,6 +66,28 @@ exports.addItem = async (req, res) => {
   try {
     await cache.hIncrBy(cartKey, itemKey, quantity);
     res.json({notice: { message: 'Item added to cart'}});
+  } catch (err) {
+    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
+  }
+};
+
+exports.UpdateQuantity = async (req, res) => {
+  const { productId, quantity} = req.body;
+
+  if (!productId || !quantity) {
+    return res.status(500).json({error: {code: 400, detail: "Missing required fields"}});
+  }
+
+  const cartKey = getCartKey(req);
+  const itemKey = getItemKey(productId);
+  try {
+    const result = await cache.hSet(cartKey, itemKey, quantity);
+    // console.log(`hSet result: ${result}`);
+    // const updatedQuantity = await cache.hGet(cartKey, itemKey, 'quantity');
+    // console.log(`Updated quantity: ${updatedQuantity}`);  // This should print the new quantity
+    const cart = await cache.hGetAll(cartKey);
+    const updatedCart = await this.getCart(req, res); 
+    res.json(updatedCart);
   } catch (err) {
     res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
   }

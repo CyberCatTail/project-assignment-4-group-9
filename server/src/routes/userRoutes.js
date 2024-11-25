@@ -10,6 +10,7 @@ loginRoutes.post('/', authController.login);
 
 cartRoutes.get('/items', cartController.getCart);
 cartRoutes.post('/items', cartController.addItem);
+cartRoutes.put('/items', cartController.UpdateQuantity);
 // cartRoutes.put('/items:id', cartController.updateItem);
 // cartRoutes.delete('/items:id', cartController.removeItem);
 

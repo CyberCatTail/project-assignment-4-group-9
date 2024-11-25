@@ -2,8 +2,11 @@ import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
 import {ParsePrice} from "@/lib/utils"
+import * as React from "react"
 
-function CartItem({product, ...props}) {
+
+
+function CartItem({product, clickfun, ...props}) {   
 
   return (
     <div {...props}>
@@ -21,7 +24,7 @@ function CartItem({product, ...props}) {
                     <div>
                         <button type="button"
                             className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md">
-                            <MinusIcon className="size-3 stroke-[3px]"/>
+                            <MinusIcon className="size-3 stroke-[3px]" onClick={() => clickfun(product)}/>
                             <span className="mx-2.5">{product.quantity}</span>
                             <PlusIcon className="size-3 stroke-[3px]"/>
                         </button>
