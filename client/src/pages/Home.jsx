@@ -2,9 +2,7 @@ import * as React from "react";
 import { getProducts } from "@/api/productApi";
 import ProductCard from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
-
 import { useForm } from "react-hook-form"
-
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -24,7 +22,27 @@ const brand = [
   {
     id: "Dell",
     label: "Dell",
-  }
+  },
+  {
+    id: "Acer",
+    label: "Acer",
+  },
+  {
+    id: "Asus",
+    label: "Asus",
+  },
+  {
+    id: "Chuwi",
+    label: "Chuwi",
+  },
+  {
+    id: "Fujitsu",
+    label: "Fujitsu",
+  },
+  {
+    id: "HP",
+    label: "HP",
+  },
 ]
 
 const category = [

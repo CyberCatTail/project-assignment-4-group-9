@@ -5,6 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {ParsePrice} from "@/lib/utils"
+import { Link } from "react-router-dom";
 
 function ProductCard({product, ...props}) {
   return (
@@ -12,10 +14,11 @@ function ProductCard({product, ...props}) {
       <CardHeader>
       </CardHeader>
       <CardContent>
-        <p>{`${product.brand} ${product.model}`}</p>
+        <Link to={`/product/${product.product_id}`} ><img src={product.img} /></Link>
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
+      <CardFooter className='flex flex-col items-start'>
+        <p>{`${product.brand} ${product.model}`}</p>
+        <p>{ParsePrice(product.price)}</p>
       </CardFooter>
     </Card>
   );
