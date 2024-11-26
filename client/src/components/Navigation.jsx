@@ -55,7 +55,7 @@ function Navigation() {
   return (
     <>
       <NavigationMenu className="max-w-full justify-between">
-        <Link to="/" className={`font-serif text-2xl text-yellow-400`}>BeastBuy</Link>
+        <Link to="/" className={`font-serif text-2xl`}>BeastBuy</Link>
         <NavigationMenuList className="flex text-gray-800 font-bold">
           <div className="w-full flex justify-end item-center">
             <NavigationMenuItem className="mx-2">
