@@ -4,8 +4,6 @@ import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import {ParsePrice} from "@/lib/utils"
 import * as React from "react"
 
-
-
 function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...props}) {   
   return (
     <div {...props}>

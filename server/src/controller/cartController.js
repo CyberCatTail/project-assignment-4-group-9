@@ -24,7 +24,7 @@ const mapProduct2Cart = async (req) => {
       }
     }
     if (itemList.length < 1) {
-      return {"data": {}};
+      return {"data": []};
     }
     const productIdList = itemList.map(v => v.productId);
     const items = await Product.findAll({
@@ -43,20 +43,15 @@ const mapProduct2Cart = async (req) => {
     const data = items.map(product => {      
       const match = itemList.find(item => item.productId == product.product_id);
       if (match) {
-        // console.log(match);
-        return { ...product, quantity: match.quantity, price: product.price/10.0};
-        // return { ...product, quantity: match.quantity };
+        return { ...product, quantity: match.quantity, price: product.price};
       }
       return product;
     });
-    // res.json({data: data});
     return {"data": data};
 };
 
 exports.getCart = async (req, res) => {
-  console.log("start getCart");
   const cartKey = getCartKey(req);
-  console.log(cartKey);
   try {
     const cart = await cache.hGetAll(cartKey);
     const itemList = [];
@@ -71,7 +66,7 @@ exports.getCart = async (req, res) => {
       res.json({data: []});
       return
     }
-    console.log(itemList);
+
     const productIdList = itemList.map(v => v.productId);
     const items = await Product.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -86,17 +81,13 @@ exports.getCart = async (req, res) => {
     }).then(products => {
       return products.map(product => product.get({ plain: true }));
     })
-    console.log(items);
     const data = items.map(product => {      
       const match = itemList.find(item => item.productId == product.product_id);
-      console.log(match);
       if (match) {
-        console.log(match);
         return { ...product, quantity: match.quantity };
       }
       return product;
     });
-    console.log();
     res.json({data: data});
   } catch (err) {
     res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }});
@@ -154,10 +145,8 @@ function generateRandomDigits(length) {
 }
 
 exports.SubmitCart = async (req, res) => { 
-  // console.log(req.userId); 
   const cartKey = getCartKey(req);
   try {
-      console.log("SubmitCart!!!!!!");
       const cartKey = getCartKey(req);
       const cart = await cache.hGetAll(cartKey);
       const itemList = [];
@@ -169,15 +158,11 @@ exports.SubmitCart = async (req, res) => {
         }
       }
       if (itemList.length < 1) {
-        console.log("itemList is none");
         res.json({notice : { message: 'Cart is empty.' }})
-        return;// error to do
+        return;
       }
       
       const oldCart = await mapProduct2Cart(req);       
-      
-      // const productIdList = itemList.map(v => v.productId);
-      // console.log(itemList);
 
       await db.transaction(async t => {  
       for(const cartItem of itemList)
@@ -190,36 +175,20 @@ exports.SubmitCart = async (req, res) => {
               product_id: cartItem.productId
             }
           });
-          console.log(updatedStock.dataValues);  
           const itemKey = getItemKey(cartItem.productId);
           const result = await cache.hDel(cartKey, itemKey);
       };
     });
-    console.log("after transaction");
-    // const newCart = await mapProduct2Cart(req); 
-    // console.log(`oldCart:${newCart}`);
 
-    // paymentCart = {card: 11};
-    // console.log(req.body);
-    console.log(oldCart)
     let paymentData = req.body;
-    console.log(paymentData)
     const order_id = generateRandomDigits(7);
-    console.log(order_id)
     paymentData.order_id = `req.userId_${order_id}`;
-    console.log(paymentData.order_id )
-    paymentData.products = oldCart.data;
-    
-    paymentData.payment = {};
-    
+    paymentData.products = oldCart.data;    
+    paymentData.payment = {};    
     paymentData.payment.card = paymentData.number;    
-    paymentData.total_price  = paymentData.Subtotal;
-    console.log(paymentData )
-    console.log(req.email)
-
-
-    // order = {order_id: 1, total_price: 0, }
-    result = sendOrder(paymentData, req.email);
+    paymentData.total_price  = paymentData.Subtotal; 
+    console.log(paymentData);
+    // result = sendOrder(paymentData, req.email);
     res.json({notice : { message: 'SubmitCart successfully.' }})
     
   } catch (err) {

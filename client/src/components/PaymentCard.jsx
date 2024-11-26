@@ -41,7 +41,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
     Subtotal += product.price * product.quantity;
   };
   let SubtotalNum = Subtotal;
-  let Tax = SubtotalNum * 0.15;
+  let Tax = Math.floor(SubtotalNum * 0.15);
   let Total = SubtotalNum + Tax - Discount;
 
   let subtotalPrice  = ParsePrice(SubtotalNum);
@@ -55,31 +55,31 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
     }).max(100, {
         message: "Password must be at most 20 characters.",
     }),
-    number: z.string(),
-    month: z.string(),
-    year: z.string(),
-    cvc: z.string(),
-    Subtotal: z.number().optional(),
-    Discount: z.number().optional(),
-    Tax: z.number().optional(),
-    Total: z.number().optional(),
+    number: z.string()
+    .regex(/^[0-9]+$/, { message: "Number must only contain digits 0-9." })
+    .length(16, { message: "Number must be exactly 16 digits." }),
+    month: z.coerce.number().int().min(1).max(12),
+    year: z.coerce.number().int().min(2024),
+    cvc: z.string()
+    .regex(/^[0-9]+$/, { message: "CVC must only contain digits 0-9." })
+    .length(3, { message: "CVC must be exactly 3 digits." })
+    .transform((val) => Number(val)),
   })
 
- 
   const form = useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
           name: "admin",
-          number: "123456789",
+          number: "1234567891113150",
           month: "1",
-          year:"2039",
-          cvc:"123",
-          Subtotal: SubtotalNum,
-          Discount: 10,
-          Tax: Tax,
-          Total: 10,
+          cvc:"123"
       },
   })
+
+  const onSubmit = (value) => {
+    handlePaymentSubmit({...value, Subtotal, Discount, Tax, Total})
+  }
+
 
   return (
     <Card {...props}>
@@ -91,7 +91,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
       </CardHeader>
       <CardContent className="grid gap-6">
         <Form {...form}>
-        <form onSubmit={form.handleSubmit(handlePaymentSubmit)} className="space-y-8">          
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">          
           <Label
             htmlFor="card"
             className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"

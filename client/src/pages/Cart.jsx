@@ -26,7 +26,6 @@ function Cart() {
     
     product.quantity = product.quantity - 1;
     try {
-        console.log("handleSubClick start!");
         const resp = await UpdatCart(product.product_id, product.quantity);
         setProducts(resp.data);
     } catch(error){
@@ -38,7 +37,6 @@ function Cart() {
         product.quantity = 0;
         try {
             const resp = await UpdatCart(product.product_id, product.quantity)   
-            console.log(resp);
             setProducts(resp.data);
         } catch(error){
             console.error("get handleDelClick error, ", error);
@@ -65,15 +63,11 @@ function Cart() {
         // 2. update quantity of cart to store
         // 3. cleaer cart data
         try{
-            console.log(values);
-            console.log("MakePayment client start!");
             const resp = await MakePayment(values);
         } catch(error){
             console.error("get handlePaymentSubmit error, ", error);
         }        
     }
-    console.log(products)
-    console.log((Object.keys(products).length));
     return (    
     <div className="font-sans max-w-6xl max-lg:max-w-2xl mx-auto bg-white p-4">
         <div className="grid lg:grid-cols-2 gap-12">
