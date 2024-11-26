@@ -58,7 +58,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
     number: z.string()
     .regex(/^[0-9]+$/, { message: "Number must only contain digits 0-9." })
     .length(16, { message: "Number must be exactly 16 digits." }),
-    month: z.coerce.number().int().min(1, { message: "month must be bigger than 1." }).max(12, { message: "month must be lower than 1." }),
+    month: z.coerce.number().int().min(1, { message: "month must be bigger than 1." }).max(12, { message: "month must be equal or lower than 12." }),
     year: z.coerce.number().int().min(2024,{ message: "year must be bigger than 2024." }),
     cvc: z.string()
     .regex(/^[0-9]+$/, { message: "CVC must only contain digits 0-9." })
