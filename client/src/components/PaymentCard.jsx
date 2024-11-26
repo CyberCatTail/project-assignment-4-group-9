@@ -69,10 +69,11 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
   const form = useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
-          name: "admin",
-          number: "1234567891113150",
-          month: "1",
-          cvc:"123"
+          name: "",
+          number: "",
+          month: "",
+          year: "",
+          cvc:""
       },
   })
 
@@ -114,8 +115,6 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                   </FormItem>
                   )}
               />
-            {/* <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="First Last" onChange={handleCardNameChange} /> */}
           </div>
           <div className="grid gap-2">
             <FormField
@@ -131,8 +130,6 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                   </FormItem>
                   )}
               />
-            {/* <Label htmlFor="number">Card number</Label>
-            <Input id="number" placeholder="XXXXXXXXXXXXXXXX"  onChange={handleCarNumInputChange}/> */}
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div className="grid gap-2">
@@ -149,8 +146,6 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                   </FormItem>
                   )}
               />
-              {/* <Label htmlFor="month">Expires</Label>
-              <Input id="number" placeholder="Month"  onChange={handleCardMonthChange}/> */}
             </div>
             <div className="grid gap-2">
               <FormField
@@ -166,8 +161,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                   </FormItem>
                   )}
               />
-              {/* <Label htmlFor="year">Year</Label>
-              <Input id="year" placeholder="Year"  onChange={handleCardYearChange}/> */}
+       
             </div>
             <div className="grid gap-2">
               <FormField
@@ -183,8 +177,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                   </FormItem>
                   )}
               />
-              {/* <Label htmlFor="cvc">CVC</Label>
-              <Input id="cvc" placeholder="CVC" onChange={handleCardCVCChange} /> */}
+    
             </div>
           </div>
           <ul className="text-gray-800 mt-8 space-y-4">
@@ -194,8 +187,6 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
               <hr className="border-gray-300" />
               <li className="flex flex-wrap gap-4 text-sm font-bold">Total <span className="ml-auto">{totalPrice}</span></li>
           </ul>
-        
-          {/* <Button className="w-full">Make Payment</Button> */}
           <Button type="submit" className='w-full'>Make Payment</Button>
         </form>
         </Form>

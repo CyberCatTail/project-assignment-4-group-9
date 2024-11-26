@@ -29,7 +29,6 @@ export const UpdatCart = async (product_id, quantity) => {
 
 export const MakePayment = async (products) => {
   try {
-    console.log("MakePayment api start!");
     const response = await apiInstance.put(`${PAYMENT_API_URL}`, products);
     return response.data.data;
   } catch (error) {
