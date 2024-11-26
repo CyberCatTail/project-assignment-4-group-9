@@ -13,6 +13,7 @@ exports.verifyAuth = (req, res, next) => {
         }
 
         req.userId = decoded.userId;
+        req.email = decoded.email;
         next();
     });
 };

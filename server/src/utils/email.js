@@ -1,6 +1,15 @@
 const nodemailer = require("nodemailer");
 const constants = require('@root/constants');
 
+function ParsePrice(price){
+  const amount = parseFloat(price) / 100;
+  const formatted = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "CAD",
+  }).format(amount)
+  return formatted;
+}
+
 const transport = nodemailer.createTransport({
   host: "smtp.163.com",
   port: 465,
@@ -61,7 +70,7 @@ const generateOrder = (order) => {
     <tr>
       <td>${product.brand} ${product.model}</td>
       <td>${product.quantity}</td>
-      <td>$${product.price.toFixed(2)}</td>
+      <td>${ParsePrice(product.price)}</td>
     </tr>`;
   });
 
@@ -69,7 +78,7 @@ const generateOrder = (order) => {
       </tbody>
     </table>
 
-    <p><strong>Total Price:</strong> $${order.total_price.toFixed(2)}</p>
+    <p><strong>Total Price:</strong> ${ParsePrice(order.total_price)}</p>
     <p><strong>Paid By Card:</strong> ${order.payment.card}</p>
   </body>
   </html>
