@@ -7,7 +7,6 @@ import * as React from "react"
 
 
 function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...props}) {   
-
   return (
     <div {...props}>
         <div className="flex items-center gap-4">
@@ -26,6 +25,7 @@ function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...p
                             className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md">
                             <MinusIcon className="size-3 stroke-[3px]" onClick={() => handleSubClick(product)}/>
                             <span className="mx-2.5">{product.quantity}</span>
+                            {/* <span className="mx-2.5">1</span> */}
                             <PlusIcon className="size-3 stroke-[3px]" onClick={() => handleAddClick(product)}/>
                         </button>
                     </div>
