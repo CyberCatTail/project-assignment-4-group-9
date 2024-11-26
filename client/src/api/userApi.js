@@ -14,7 +14,7 @@ export const getCart= async () => {
   }
 };
 
-export const UpdatCart = async (product_id, quantity) => {
+export const updateCart = async (product_id, quantity) => {
   try {
     const response = await apiInstance.put(`${API_URL}`, {
       "product_id": product_id,
@@ -22,7 +22,7 @@ export const UpdatCart = async (product_id, quantity) => {
   });
     return response.data.data;
   } catch (error) {
-    console.error("Error Updating product data:", error);
+    console.error("Error Updating Cart data:", error);
     throw error;
   }
 };
@@ -32,7 +32,7 @@ export const MakePayment = async (products) => {
     const response = await apiInstance.put(`${PAYMENT_API_URL}`, products);
     return response.data.data;
   } catch (error) {
-    console.error("Error Updating product data:", error);
+    console.error("Error Updating Payment data:", error);
     throw error;
   }
 };

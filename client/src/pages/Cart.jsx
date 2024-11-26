@@ -1,7 +1,8 @@
 import * as React from "react";
-import { getCart, UpdatCart, MakePayment } from "@/api/userApi";
+import { getCart, updateCart, MakePayment } from "@/api/userApi";
 import PaymentCard from "@/components/PaymentCard";
 import CartItem from "@/components/CartItem";
+import { toast } from "sonner"
 
 
 function Cart() {
@@ -24,9 +25,8 @@ function Cart() {
         return;
     }
     
-    product.quantity = product.quantity - 1;
     try {
-        const resp = await UpdatCart(product.product_id, product.quantity);
+        const resp = await updateCart(product.product_id, product.quantity - 1);
         setProducts(resp);
     } catch(error){
         console.error("get handleSubClick error, ", error);
@@ -34,9 +34,8 @@ function Cart() {
     };
 
     const handleDelClick = async (product) => {
-        product.quantity = 0;
         try {
-            const resp = await UpdatCart(product.product_id, product.quantity)   
+            const resp = await updateCart(product.product_id, 0)   
             setProducts(resp);
         } catch(error){
             console.error("get handleDelClick error, ", error);
@@ -45,13 +44,12 @@ function Cart() {
 
     const handleAddClick = async (product) => {
         if(product.quantity>=product.stock.quantity){
-            // window.alert("Exceed the max stock quantity");            
-            // toast.error(error.response.data.notice.message);
             toast.error("Exceed the max stock quantity");
+            return;
         }
-        product.quantity = product.quantity + 1;
+
         try {
-            const resp = await UpdatCart(product.product_id, product.quantity)   
+            const resp = await updateCart(product.product_id, product.quantity + 1)   
             setProducts(resp);
         } catch(error){
             console.error("get handleAddClick error, ", error);
@@ -64,6 +62,7 @@ function Cart() {
         // 3. cleaer cart data
         try{
             const resp = await MakePayment(values);
+            setProducts(resp);
         } catch(error){
             console.error("get handlePaymentSubmit error, ", error);
         }        

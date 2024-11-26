@@ -181,15 +181,15 @@ exports.SubmitCart = async (req, res) => {
     });
 
     let paymentData = req.body;
-    const order_id = generateRandomDigits(7);
-    paymentData.order_id = `req.userId_${order_id}`;
+    paymentData.order_id = generateRandomDigits(7);
     paymentData.products = oldCart;    
     paymentData.payment = {};    
     paymentData.payment.card = paymentData.number;    
     paymentData.total_price  = paymentData.Subtotal; 
     console.log(paymentData);
     // result = sendOrder(paymentData, req.email);
-    res.json({notice : { message: 'SubmitCart successfully.' }})
+    const newCart = await mapProduct2Cart(req);      
+    res.json({data: newCart, notice : { message: 'SubmitCart successfully.' }})
     
   } catch (err) {
     res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Modify Product Failed' }});
