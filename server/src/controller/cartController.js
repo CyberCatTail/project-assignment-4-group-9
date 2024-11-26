@@ -24,7 +24,7 @@ const mapProduct2Cart = async (req) => {
       }
     }
     if (itemList.length < 1) {
-      return {"data": []};
+      return [];
     }
     const productIdList = itemList.map(v => v.productId);
     const items = await Product.findAll({
@@ -47,7 +47,7 @@ const mapProduct2Cart = async (req) => {
       }
       return product;
     });
-    return {"data": data};
+    return data;
 };
 
 exports.getCart = async (req, res) => {
@@ -183,7 +183,7 @@ exports.SubmitCart = async (req, res) => {
     let paymentData = req.body;
     const order_id = generateRandomDigits(7);
     paymentData.order_id = `req.userId_${order_id}`;
-    paymentData.products = oldCart.data;    
+    paymentData.products = oldCart;    
     paymentData.payment = {};    
     paymentData.payment.card = paymentData.number;    
     paymentData.total_price  = paymentData.Subtotal; 

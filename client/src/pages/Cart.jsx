@@ -27,7 +27,7 @@ function Cart() {
     product.quantity = product.quantity - 1;
     try {
         const resp = await UpdatCart(product.product_id, product.quantity);
-        setProducts(resp.data);
+        setProducts(resp);
     } catch(error){
         console.error("get handleSubClick error, ", error);
     }        
@@ -37,7 +37,7 @@ function Cart() {
         product.quantity = 0;
         try {
             const resp = await UpdatCart(product.product_id, product.quantity)   
-            setProducts(resp.data);
+            setProducts(resp);
         } catch(error){
             console.error("get handleDelClick error, ", error);
         }        
@@ -52,7 +52,7 @@ function Cart() {
         product.quantity = product.quantity + 1;
         try {
             const resp = await UpdatCart(product.product_id, product.quantity)   
-            setProducts(resp.data);
+            setProducts(resp);
         } catch(error){
             console.error("get handleAddClick error, ", error);
         }        
@@ -75,9 +75,8 @@ function Cart() {
             <div className="bg-gray-100 p-6 rounded-md">
                 <h2 className="text-2xl font-extrabold text-gray-800">Your Cart</h2>
                 <div className="space-y-4 mt-8">
-
                     <div>
-                        {
+                        {   
                             Object.keys(products).length === 0 ? (
                                 <div>No products in the cart.</div>
                               ):
