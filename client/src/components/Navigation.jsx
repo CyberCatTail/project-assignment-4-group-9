@@ -35,6 +35,7 @@ function Navigation() {
 
   const handeLogout = () => {
     logout();
+    window.location.href = '/'
   }
 
   const closeLoginCard = () => {
@@ -84,7 +85,7 @@ function Navigation() {
         </NavigationMenuList>
       </NavigationMenu>
       {showLogin &&
-        <Login className="overflow-auto w-[500px] h-30 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20" handleClose={closeLoginCard} onSubmit={loginSubmit} LoginButton={loginButton} />
+        <Login className="overflow-auto w-svw md:w-[500px] h-30 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20" handleClose={closeLoginCard} onSubmit={loginSubmit} LoginButton={loginButton} />
       }
     </>
   );
