@@ -19,8 +19,10 @@ exports.getProductById = (req, res) => {
         res.json({error: {code: 404, detail: `can not find product ${pk}`}});
         return
       }
-
-      res.json({data: product});
+      let imgs = Array.from({ length: 5 }, (_, i) => `https://localhost/img/${product.brand}/${i + 1}.jpg`);
+      imgs.unshift(product.img)
+      imgs = imgs.filter((item, index) => imgs.indexOf(item) === index);
+      res.json({data: {...product.dataValues, imgs}});
     })
     .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }}));
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { getProducts } from "@/api/productApi";
 import ProductCard from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -93,6 +93,26 @@ const category = [
   {
     id: "Ultrabook",
     label: "Ultrabook",
+  },
+  {
+    id: "Workstation",
+    label: "Workstation",
+  },
+  {
+    id: "Gaming",
+    label: "Gaming",
+  },
+  {
+    id: "2 in 1 Convertible",
+    label: "2 in 1 Convertible",
+  },
+  {
+    id: "Netbook",
+    label: "Netbook",
+  },
+  {
+    id: "Notebook",
+    label: "Notebook",
   },
 ]
 const ITEM_PER_PAGE = 8;

@@ -3,12 +3,12 @@ import * as React from "react";
 import { getProduct } from "@/api/productApi";
 import { addToCart } from "@/api/userApi";
 import { Button } from "@/components/ui/button"
+import { ParsePrice } from "@/lib/utils"
 
 function Product() {
   const { id } = useParams();
   const [product, setProduct] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
   const [selectedColor, setSelectedColor] = React.useState("black"); 
 
   React.useEffect(() => {
@@ -19,17 +19,12 @@ function Product() {
       })
       .catch((err) => {
         console.error("Failed to load product:", err);
-        setError("Failed to load product details.");
         setLoading(false);
       });
-  }, [id]);
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>; 
-  }
-
-  if (error) {
-    return <div>{error}</div>; 
   }
 
   if (!product) {
@@ -39,8 +34,6 @@ function Product() {
   const AddToCart = async () => {
     await addToCart(id, 1)
   }
-
-  const formattedPrice = (product.price / 100).toFixed(2);
 
   return (
     <div className="flex flex-col lg:flex-row items-start p-6 gap-10">
@@ -56,7 +49,7 @@ function Product() {
       <div className="w-full lg:w-1/2 flex flex-col justify-between" style={{ minHeight: "500px" }}>
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">{product.model}</h1>
-          <p className="text-2xl text-green-500 font-semibold">${formattedPrice}</p>
+          <p className="text-2xl text-green-500 font-semibold">{ParsePrice(product.price)}</p>
           <p className="text-gray-700">{product.description || "No description available."}</p>
         </div>
         <div className="flex items-center gap-4">
