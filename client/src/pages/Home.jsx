@@ -2,7 +2,7 @@ import * as React from "react";
 import { getProducts } from "@/api/productApi";
 import ProductCard from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -16,16 +16,12 @@ import {
 
 const brand = [
   {
-    id: "Apple",
-    label: "Apple",
-  },
-  {
-    id: "Dell",
-    label: "Dell",
-  },
-  {
     id: "Acer",
     label: "Acer",
+  },
+  {
+    id: "Apple",
+    label: "Apple",
   },
   {
     id: "Asus",
@@ -36,13 +32,61 @@ const brand = [
     label: "Chuwi",
   },
   {
+    id: "Dell",
+    label: "Dell",
+  },
+  {
     id: "Fujitsu",
     label: "Fujitsu",
+  },
+  {
+    id: "Google",
+    label: "Google",
   },
   {
     id: "HP",
     label: "HP",
   },
+  {
+    id: "Huawei",
+    label: "Huawei",
+  },
+  {
+    id: "Lenovo",
+    label: "Lenovo",
+  },
+  {
+    id: "LG",
+    label: "LG",
+  },
+  {
+    id: "Mediacom",
+    label: "Mediacom",
+  },
+  {
+    id: "Microsoft",
+    label: "Microsoft",
+  },
+  {
+    id: "MSI",
+    label: "MSI",
+  },
+  {
+    id: "Razer",
+    label: "Razer",
+  },
+  {
+    id: "Samsung",
+    label: "Samsung",
+  },
+  {
+    id: "Vero",
+    label: "Vero",
+  },
+  {
+    id: "Toshiba",
+    label: "Toshiba",
+  }
 ]
 
 const category = [
@@ -51,15 +95,17 @@ const category = [
     label: "Ultrabook",
   },
 ]
-
+const ITEM_PER_PAGE = 8;
 
 function Home() {
   const [products, setProducts] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const fetchProducts = async (queryParams) => {
     try {
       const data = await getProducts(queryParams);
       setProducts(data);
+      setCurrentPage(1);
     } catch (error) {
       console.error("get products error, ", error)
     }
@@ -80,6 +126,11 @@ function Home() {
   function onSubmit(data) {
     fetchProducts(data)
   }
+
+  const startIndex = (currentPage - 1)* ITEM_PER_PAGE;
+  const currentProducts = products.slice(startIndex,startIndex + ITEM_PER_PAGE);
+
+  const totalPages = Math.ceil(products.length / ITEM_PER_PAGE);
 
   return (
     <div className="flex flex-col sm:flex-row justify-center my-3">
@@ -193,7 +244,27 @@ function Home() {
         </Form>
       </div>
       <div className="mx-8 flex flex-wrap">
-        {products.map(product => <ProductCard key={product.product_id} product={product} className='w-full lg:w-1/5 mx-3 mb-6' />)}
+      {currentProducts.map((product) => (
+          <ProductCard key={product.product_id} product={product} className="w-full lg:w-1/5 mx-3 mb-6" />
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center space-y-2 mt-4">
+        <Button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
