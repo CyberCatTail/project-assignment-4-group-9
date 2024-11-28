@@ -27,6 +27,19 @@ export const updateCart = async (product_id, quantity) => {
   }
 };
 
+export const addToCart = async (product_id, quantity) => {
+  try {
+    const response = await apiInstance.post(`${API_URL}`, {
+      "product_id": product_id,
+      "quantity": quantity
+  });
+    return response.data.data;
+  } catch (error) {
+    console.error("Error Updating Cart data:", error);
+    throw error;
+  }
+};
+
 export const MakePayment = async (products) => {
   try {
     const response = await apiInstance.put(`${PAYMENT_API_URL}`, products);

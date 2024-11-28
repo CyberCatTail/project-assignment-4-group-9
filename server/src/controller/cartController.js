@@ -95,14 +95,14 @@ exports.getCart = async (req, res) => {
 };
 
 exports.addItem = async (req, res) => {
-  const { productId, quantity } = req.body;
+  const { product_id, quantity } = req.body;
 
-  if (!productId || !quantity) {
+  if (!product_id || !quantity) {
     return res.status(500).json({error: {code: 400, detail: "Missing required fields"}});
   }
 
   const cartKey = getCartKey(req);
-  const itemKey = getItemKey(productId);
+  const itemKey = getItemKey(product_id);
   try {
     await cache.hIncrBy(cartKey, itemKey, quantity);
     res.json({notice: { message: 'Item added to cart'}});
