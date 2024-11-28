@@ -112,7 +112,9 @@ exports.addItem = async (req, res) => {
 };
 
 exports.UpdateQuantity = async (req, res) => {
-  const { product_id, quantity} = req.body;
+  const product_id = req.params.id;
+  const {quantity} = req.body;
+  // const { product_id, quantity} = req.body;
   let productId = product_id;
   if (!productId || quantity<0) {
     return res.status(500).json({error: {code: 400, detail: "Missing required fields"}});

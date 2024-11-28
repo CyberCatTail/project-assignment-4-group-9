@@ -1,10 +1,14 @@
 import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
-
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 import {ParsePrice} from "@/lib/utils"
 import * as React from "react"
 
-function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...props}) {   
+function CartItem({product, handleSubClick, handleDelClick, handleAddClick, handleInputQuantity, ...props}) {   
+   const handleInput = (event) => {
+    handleInputQuantity(product, event.target.value)
+   }
   return (
     <div {...props}>
         <div className="flex items-center gap-4">
@@ -17,17 +21,21 @@ function CartItem({product, handleSubClick, handleDelClick, handleAddClick, ...p
                 <h6 className="text-sm text-gray-800 font-bold cursor-pointer mt-0.5">{ParsePrice(product.price)}</h6>
 
                 <div className="flex gap-4 mt-4">
-
                     <div>
-                        <button type="button"
-                            className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md">
-                            <MinusIcon className="size-3 stroke-[3px]" onClick={() => handleSubClick(product)}/>
-                            <span className="mx-2.5">{product.quantity}</span>
-                            {/* <span className="mx-2.5">1</span> */}
-                            <PlusIcon className="size-3 stroke-[3px]" onClick={() => handleAddClick(product)}/>
-                        </button>
-                    </div>
+                        <div 
+                            className="flex items-center px-2.5 py-1.5 text-gray-800 text-xs outline-none bg-transparent rounded-md">
+                            <div className="px-4" onClick={() => handleSubClick(product)}>
+                                <Button className="size-5" > - </Button>
+                            </div>
 
+                            <Input type="text" className="size-11 bg-zinc-100" placeholder={product.quantity} onChange = {handleInput} />
+
+                            <div className="px-4" onClick={() => {handleAddClick(product)}} >
+                                <Button className="size-5" > + </Button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div className="ml-auto">
                         <TrashIcon className="size-4 stroke-2 stroke-red-500 inline cursor-pointer"  onClick={() => handleDelClick(product)}/>
                     </div>

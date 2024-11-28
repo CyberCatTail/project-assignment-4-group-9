@@ -50,7 +50,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
   let totalPrice     = ParsePrice(Total);
 
   const formSchema = z.object({
-    name: z.string().min(5, {
+    name: z.string().min(1, {
         message: "name must be at least 5 characters.",
     }).max(100, {
         message: "name must be at most 100 characters.",
@@ -78,7 +78,8 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
   })
 
   const onSubmit = (value) => {
-    handlePaymentSubmit({...value, Subtotal, Discount, Tax, Total})
+    handlePaymentSubmit({...value, Subtotal, Discount, Tax, Total});
+    form.reset();
   }
 
 
@@ -138,7 +139,7 @@ function PaymentCard({products, handlePaymentSubmit, ...props}) {
                 name="month"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Expires Month</FormLabel>
+                    <FormLabel>Month</FormLabel>
                       <FormControl>
                           <Input  {...field}/>
                       </FormControl>
