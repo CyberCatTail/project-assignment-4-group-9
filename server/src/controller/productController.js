@@ -34,7 +34,7 @@ exports.getAllProducts = (req, res) => {
   if (brand) query.brand = brand;
 
   if (search && search.trim() !== "") {
-    query.model = { [Op.iLike]: `%${search}%` }; // 模糊匹配
+    query.model = { [Op.iLike]: `%${search}%` };
   }
   Product.findAll({
     attributes: { exclude: ['createdAt', 'updatedAt'] },

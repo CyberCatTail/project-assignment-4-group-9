@@ -31,6 +31,9 @@ async function runServer() {
 
     const routes = require('./routes');
     app.use('/api/v1', routes);
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+      });
 
     const port = constants.PORT;
     const server = https.createServer(options, app);
