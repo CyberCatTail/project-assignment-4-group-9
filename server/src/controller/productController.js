@@ -35,9 +35,6 @@ exports.getAllProducts = (req, res) => {
   if (category) query.category = category;
   if (brand) query.brand = brand;
 
-  if (search && search.trim() !== "") {
-    query.model = { [Op.iLike]: `%${search}%` };
-  }
   Product.findAll({
     attributes: { exclude: ['createdAt', 'updatedAt'] },
     include: [{
@@ -51,6 +48,15 @@ exports.getAllProducts = (req, res) => {
     offset: offset
   })
     .then((products) => {
+      if (search && search.trim() !== "") {
+        const keywords = search.trim().toLowerCase().split(/\s+/);
+        products = products.filter(product =>
+          keywords.every(keyword =>
+            product.brand.toLowerCase().includes(keyword) ||
+            product.model.toLowerCase().includes(keyword)
+          )
+        );
+      }
       res.json({data: products});
     })
     .catch((err) => res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Please Try again' }}));
