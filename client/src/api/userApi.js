@@ -16,7 +16,7 @@ export const getCart= async () => {
 
 export const updateCart = async (product_id, quantity) => {
   try {
-    const response = await apiInstance.put(`${API_URL}`, {
+    const response = await apiInstance.put(`${API_URL}/${product_id}`, {
       "product_id": product_id,
       "quantity": quantity
   });
@@ -40,7 +40,7 @@ export const addToCart = async (product_id, quantity) => {
   }
 };
 
-export const MakePayment = async (products) => {
+export const makePayment = async (products) => {
   try {
     const response = await apiInstance.put(`${PAYMENT_API_URL}`, products);
     return response.data.data;

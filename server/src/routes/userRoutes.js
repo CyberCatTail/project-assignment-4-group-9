@@ -11,9 +11,9 @@ loginRoutes.post('/', authController.login);
 
 cartRoutes.get('/items', cartController.getCart);
 cartRoutes.post('/items', cartController.addItem);
-cartRoutes.put('/items', cartController.UpdateQuantity);
+// cartRoutes.put('/items', cartController.UpdateQuantity);
 paymentRoutes.put('/', cartController.SubmitCart);
-// cartRoutes.put('/items:id', cartController.updateItem);
+cartRoutes.put('/items/:id', cartController.UpdateQuantity);
 // cartRoutes.delete('/items:id', cartController.removeItem);
 
 module.exports = {userRoutes, loginRoutes, cartRoutes, paymentRoutes};

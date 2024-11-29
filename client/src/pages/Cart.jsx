@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getCart, updateCart, MakePayment } from "@/api/userApi";
+import { getCart, updateCart, makePayment } from "@/api/userApi";
 import PaymentCard from "@/components/PaymentCard";
 import CartItem from "@/components/CartItem";
 import { toast } from "sonner"
@@ -56,12 +56,32 @@ function Cart() {
         }        
     };
 
+    const handleInputQuantity = async (product, quantity) =>{
+        if(quantity>=product.stock.quantity){
+            toast.error("Exceed the max stock quantity!");
+            return;
+        }
+
+        if(quantity<=0){
+            toast.error("Quantity must be greater than 0!");
+            return;
+        }
+
+        try {
+            const resp = await updateCart(product.product_id, quantity)   
+            setProducts(resp);
+        } catch(error){
+            console.error("get handleInputQuantity error, ", error);
+        }   
+
+    }
+
     const handlePaymentSubmit = async(values) => {
         // 1. update quantity of cart to product
         // 2. update quantity of cart to store
         // 3. cleaer cart data
         try{
-            const resp = await MakePayment(values);
+            const resp = await makePayment(values);
             setProducts(resp);
         } catch(error){
             console.error("get handlePaymentSubmit error, ", error);
@@ -79,7 +99,9 @@ function Cart() {
                             Object.keys(products).length === 0 ? (
                                 <div>No products in the cart.</div>
                               ):
-                            (products.map(product => <CartItem key={product.product_id} product={product} handleSubClick={handleSubClick} handleDelClick={handleDelClick} handleAddClick={handleAddClick} /> ))
+                            (products.map(product => <CartItem key={product.product_id} product={product} 
+                                handleSubClick={handleSubClick} handleDelClick={handleDelClick} 
+                                handleAddClick={handleAddClick} handleInputQuantity={handleInputQuantity} /> ))
                         }
                         <hr className="border-gray-300" />
                     </div>   
