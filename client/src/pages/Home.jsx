@@ -147,13 +147,13 @@ function Home() {
     fetchProducts(data)
   }
 
-  const startIndex = (currentPage - 1)* ITEM_PER_PAGE;
-  const currentProducts = products.slice(startIndex,startIndex + ITEM_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEM_PER_PAGE;
+  const currentProducts = products.slice(startIndex, startIndex + ITEM_PER_PAGE);
 
-  const totalPages = Math.ceil(products.length / ITEM_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(products.length / ITEM_PER_PAGE));
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center my-3">
+    <div className="flex flex-col justify-between sm:flex-row justify-center my-3">
       <div className="flex-none flex flex-col space-y-4 mx-12 mb-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -161,14 +161,14 @@ function Home() {
               control={form.control}
               name="search"
               render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Search Products" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Search Products" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="brand"
@@ -263,29 +263,32 @@ function Home() {
           </form>
         </Form>
       </div>
-      <div className="mx-8 flex flex-wrap">
-      {currentProducts.map((product) => (
-          <ProductCard key={product.product_id} product={product} className="w-full lg:w-1/5 mx-3 mb-6" />
-        ))}
+      <div className="flex flex-col">
+        <div className="mx-8 flex justify-center flex-wrap">
+          {currentProducts.map((product) => (
+            <ProductCard key={product.product_id} product={product} className="w-full lg:w-1/5 mx-3 mb-6" />
+          ))}
+        </div>
+
+        <div className="flex flex-row justify-center items-center space-x-2 m-4">
+          <Button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
       </div>
 
-      <div className="flex flex-col items-center space-y-2 mt-4">
-        <Button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </Button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
-      </div>
     </div>
   );
 }
