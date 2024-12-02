@@ -37,7 +37,7 @@ function ProductCard({ product, ...props }) {
         </CardFooter>
       </Link>
       <div className = "w-full justify-items-center ">
-          <Button  className = "mx-auto block mb-2" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>
+          <Button  className = "mx-auto block mb-2" onClick={AddToCart}>
               Add to Cart
           </Button>
       </div>    
