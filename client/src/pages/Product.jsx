@@ -4,6 +4,7 @@ import { getProduct } from "@/api/productApi";
 import { addToCart } from "@/api/userApi";
 import { Button } from "@/components/ui/button"
 import { ParsePrice } from "@/lib/utils"
+import ReviewStar from "@/components/ReviewStar"
 
 function Product() {
   const { id } = useParams();
@@ -49,6 +50,10 @@ function Product() {
       <div className="w-full lg:w-1/2 flex flex-col justify-between" style={{ minHeight: "500px" }}>
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">{product.model}</h1>
+          <div className="flex space-x-2 items-center">
+              <ReviewStar rating={Math.floor(product.review/10)} className="flex" />
+              <p className={`font-serif text-2xl`}>{product.review/10}</p>
+          </div>
           <p className="text-2xl text-green-500 font-semibold">{ParsePrice(product.price)}</p>
           <p className="text-gray-700">{product.description || "No description available."}</p>
         </div>

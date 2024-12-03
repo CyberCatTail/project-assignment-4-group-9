@@ -59,6 +59,10 @@ const Product = db.define('Product', {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    review: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   }, {
     tableName: 'products',
     timestamps: true,
