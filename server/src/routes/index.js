@@ -6,7 +6,7 @@ const { userRoutes, cartRoutes, loginRoutes, paymentRoutes } = require('./userRo
 const productRoutes = require('./productRoutes');
 const adminRoutes = require('./adminRoutes');
 
-router.use('/users', userRoutes);
+router.use('/user', verifyAuth, userRoutes);
 router.use('/payment', verifyAuth, paymentRoutes);
 router.use('/cart', verifyAuth, cartRoutes);
 router.use('/products', productRoutes);

@@ -16,4 +16,6 @@ paymentRoutes.put('/', cartController.SubmitCart);
 cartRoutes.put('/items/:id', cartController.UpdateQuantity);
 // cartRoutes.delete('/items:id', cartController.removeItem);
 
+userRoutes.patch('/password', authController.updatePassword);
+
 module.exports = {userRoutes, loginRoutes, cartRoutes, paymentRoutes};

@@ -49,3 +49,17 @@ export const makePayment = async (products) => {
     throw error;
   }
 };
+
+
+
+export const changePassword = async (password) => {
+  try {
+    await apiInstance.patch(`/user/password`, {
+        password,
+    });
+    return true;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    throw error;
+  }
+}

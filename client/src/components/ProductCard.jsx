@@ -30,22 +30,21 @@ function ProductCard({ product, ...props }) {
       </CardContent>
 
       <CardFooter className="flex space-y-4 flex-col items-start">
-        <div className="w-full h-22">
-          <Link to={`/product/${product.product_id}`}>
-
-            <p>{`${product.brand} ${product.model}`}</p>
-            <ReviewStar rating={Math.floor(product.review/10)} className="flex" />
-            <p className="font-bold">{ParsePrice(product.price)}</p>
+        <div className="w-full h-32">
+          <Link to={`/product/${product.product_id}`} className="flex flex-col h-24">
+            <p className="line-clamp-1">{`${product.brand} ${product.model}`}</p>
+            <div>
+              <ReviewStar rating={Math.floor(product.review/10)} className="flex" />
+              <p className="font-bold">{ParsePrice(product.price)}</p>
+            </div>
           </Link>
-
+          <div className="w-full justify-items-center ">
+            <Button className="mx-auto block mb-2" onClick={AddToCart}>
+              Add to Cart
+            </Button>
+          </div>
         </div>
-
       </CardFooter>
-      <div className="w-full justify-items-center ">
-        <Button className="mx-auto block mb-2" onClick={AddToCart}>
-          Add to Cart
-        </Button>
-      </div>
     </Card>
   );
 }
