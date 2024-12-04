@@ -160,7 +160,7 @@ exports.SubmitCart = async (req, res) => {
         }
       }
       if (itemList.length < 1) {
-        res.json({notice : { message: 'Cart is empty.' }})
+        res.status(404).json({notice : { message: 'Cart is empty.' }, data: []})
         return;
       }
       
