@@ -23,7 +23,7 @@ function ProductCard({ product, ...props }) {
           <img
             src={product.img}
             alt={`${product.brand} ${product.model}`}
-            className="w-[320px] h-[320px]"
+            className="w-[200px] h-[200px]"
           />
         </Link>
 
