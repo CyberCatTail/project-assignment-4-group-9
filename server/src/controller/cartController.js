@@ -169,14 +169,18 @@ exports.SubmitCart = async (req, res) => {
       await db.transaction(async t => {  
       for(const cartItem of itemList)
       {
-          await Stock.increment({quantity:  -cartItem.quantity}, {
-                where:{product_id: cartItem.productId, quantity: { [Op.gt]: cartItem.quantity }
+          const [[_, influceNum]] = await Stock.increment({quantity:  -cartItem.quantity}, {
+                where:{product_id: cartItem.productId, quantity: { [Op.gte]: cartItem.quantity }
                       },transaction: t});
-          const updatedStock = await Stock.findOne({
-            where: {
-              product_id: cartItem.productId
-            }
-          });
+          if (influceNum == 0) {
+            const product = await Product.findOne({
+              attributes: ['model'],
+              where: {
+                product_id: cartItem.productId,
+              }
+            })
+            throw new Error(`${product.model} Out of Stock`);
+          }
           const itemKey = getItemKey(cartItem.productId);
           const result = await cache.hDel(cartKey, itemKey);
       };
@@ -188,12 +192,11 @@ exports.SubmitCart = async (req, res) => {
     paymentData.payment = {};    
     paymentData.payment.card = paymentData.number;    
     paymentData.total_price  = paymentData.Subtotal; 
-    console.log(paymentData);
-    // result = sendOrder(paymentData, req.email);
+    result = sendOrder(paymentData, req.email);
     const newCart = await mapProduct2Cart(req);      
     res.json({data: newCart, notice : { message: 'SubmitCart successfully.' }})
     
   } catch (err) {
-    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'Modify Product Failed' }});
+    res.status(500).json({error: {code: 500, detail: err.message}, notice : { message: 'SubmitCart Failed ' + err.message }});
   }
 };

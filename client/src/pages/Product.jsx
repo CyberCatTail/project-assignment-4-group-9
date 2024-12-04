@@ -128,7 +128,7 @@ function Product() {
           <h1 className="text-3xl font-bold">{product.model}</h1>
           <div className="flex space-x-2 items-center">
             <ReviewStar rating={Math.floor(product.review / 10)} className="flex" />
-            <p className={`font-serif text-2xl`}>{product.review / 10}</p>
+            <p className={`font-serif text-2xl`}>{(product.review / 10).toFixed(1)}</p>
           </div>
           <p className="text-2xl text-green-500 font-semibold">{ParsePrice(product.price)}</p>
           <Button className="px-6 py-3 w-[160px] bg-black text-white rounded hover:bg-gray-800" onClick={AddToCart}>

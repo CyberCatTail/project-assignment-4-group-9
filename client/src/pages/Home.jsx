@@ -269,24 +269,26 @@ function Home() {
             <ProductCard key={product.product_id} product={product} className="w-full lg:w-1/5 mx-3 mb-6" />
           ))}
         </div>
+        {(currentProducts.length > 0) &&
+          (<div className="flex flex-row justify-center items-center space-x-2 m-4">
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>)
+        }
 
-        <div className="flex flex-row justify-center items-center space-x-2 m-4">
-          <Button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </Button>
-        </div>
       </div>
 
     </div>
