@@ -28,7 +28,7 @@ function CartItem({product, handleSubClick, handleDelClick, handleAddClick, hand
                                 <Button className="size-5" > - </Button>
                             </div>
 
-                            <Input type="text" className="size-11 bg-zinc-100" placeholder={product.quantity} onChange = {handleInput} />
+                            <Input type="text" className="size-11 bg-zinc-100" placeholder={product.quantity} value={product.quantity}  onChange = {handleInput} />
 
                             <div className="px-4" onClick={() => {handleAddClick(product)}} >
                                 <Button className="size-5" > + </Button>
